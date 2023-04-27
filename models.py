@@ -168,6 +168,7 @@ class User(db.Model):
 
         if user:
             is_auth = bcrypt.check_password_hash(user.password, password)
+            # is_auth = user.password
             if is_auth:
                 return user
 
