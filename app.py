@@ -13,17 +13,21 @@ CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 app.app_context().push()
+uri = os.environ.get('DATABASE_URL', 'postgresql:///warbler')
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
 
 # Get DB_URI from environ variable (useful for production/testing) or,
 # if not set there, use development local db.
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', 'postgresql:///warbler'))
+
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = False
+app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
-toolbar = DebugToolbarExtension(app)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "goodjob")
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+app.config.update(SESSION_COOKIE_SAMESITE="None",
+                  SESSION_COOKIE_SECURE=True)
+app.config['DEBUG'] = os.environ.get('FLASK_DEBUG', False)
 
 connect_db(app)
 
