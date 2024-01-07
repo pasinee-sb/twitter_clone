@@ -2,6 +2,7 @@
 
 body {
   background-color: #e6ecf0;
+  margin: 2%;
 }
 
 body.error-404 {
